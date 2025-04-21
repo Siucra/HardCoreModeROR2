@@ -1,2 +1,0 @@
-# HardCoreModeROR2
- 

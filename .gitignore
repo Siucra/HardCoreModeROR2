@@ -1,0 +1,24 @@
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.vsidx
+
+# Build output
+bin/
+obj/
+*.cache
+
+# DLLs in Libraries folder (if not custom)
+Libraries/*.dll
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Rider
+.idea/
+
+# Logs
+*.log
