@@ -16,14 +16,15 @@ public class ror2Hardcore : BaseUnityPlugin {
 
     }
 
+    //SceneDirector -> thing in charge of seeting up level, DirectorCardCategorySelection dccs -> a list of spawnable interactables
     private void RemoveHealingShrine(SceneDirector director, DirectorCardCategorySelection dccs) {
-        if (dccs == null) {
+        if (dccs == null) {//if the list is empty, stop the function (error catching)
             return;
         }
-        for (int i = 0; i < dccs.categories.Length; i++){
-            var category = dccs.categories[i];
+        for (int i = 0; i < dccs.categories.Length; i++){//loops through each category 
+            var category = dccs.categories[i]; //saves current category to a variable so it can be utilised
            
-            category.cards = category.cards.
+            category.cards = category.cards. //replace the cards in this category and keep only cards that doesnt have "iscShrineHealing", converts updated list into array
                 Where(card => !card.spawnCard.name.Equals("iscShrineHealing", StringComparison.OrdinalIgnoreCase))
                 .ToArray();
 
