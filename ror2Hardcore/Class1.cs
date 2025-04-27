@@ -4,7 +4,6 @@ using RoR2;//use game's code
 using RoR2.Navigation;
 using System.Linq;
 using System;
-using Console = System.Console;
 
 //Mod: No healing from items,drones or shrines, only from kills
 
@@ -34,7 +33,7 @@ public class ror2Hardcore : BaseUnityPlugin {
 
 
 
-        Console.WriteLine("Shrine of the Woods removed from spawn pool.");//Debugger
+        Logger.LogInfo("Shrine of the Woods removed from spawn pool.");//Debugger
     }
 
 
