@@ -16,7 +16,7 @@ public class ror2Hardcore : BaseUnityPlugin {
 
     }
 
-    //SceneDirector -> thing in charge of seeting up level, DirectorCardCategorySelection dccs -> a list of spawnable interactables
+    //SceneDirector -> thing in charge of setting up level, DirectorCardCategorySelection dccs -> a list of spawnable interactables
     private void RemoveHealingShrine(SceneDirector director, DirectorCardCategorySelection dccs) {
         if (dccs == null) {//if the list is empty, stop the function (error catching)
             return;
