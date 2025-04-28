@@ -7,7 +7,7 @@ using System;
 
 //Mod: No healing from items,drones or shrines, only from kills
 
-[BepInPlugin("com.yourname.hardcore", "Hardcore mode", "1,0,0")]//mod unique id, mod name, version number
+[BepInPlugin("com.yourname.hardcore", "Hardcore mode", "1.0.0")]//mod unique id, mod name, version number
 
 public class ror2Hardcore : BaseUnityPlugin {
 
