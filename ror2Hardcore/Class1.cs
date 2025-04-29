@@ -36,6 +36,12 @@ public class ror2Hardcore : BaseUnityPlugin {
         Logger.LogInfo("Shrine of the Woods removed from spawn pool.");//Debugger
     }
 
+    private void RemoveHealingDrone() {
+        //DroneProjectileHoverHeal
+
+        Logger.LogInfo("Healing drones removed from spawn pool."); //Debugger
+    }
+
 
 }
 
