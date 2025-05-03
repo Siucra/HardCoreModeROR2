@@ -13,9 +13,14 @@ public class ror2Hardcore : BaseUnityPlugin {
 
     public void Awake() {//runs when mod starts (when game loads)
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingShrine;
-        SceneDirector.onGenerateInteractableCardSelection -= RemoveHealingDrone;
+        SceneDirector.onGenerateInteractableCardSelection += RemoveHealingDrone;
+        SceneDirector.onGenerateInteractableCardSelection += LogAllInteractables;
 
-    }
+
+    
+}
+
+    
 
     //SceneDirector -> thing in charge of setting up level, DirectorCardCategorySelection dccs -> a list of spawnable interactables
     private void RemoveHealingShrine(SceneDirector director, DirectorCardCategorySelection dccs) {
@@ -46,7 +51,7 @@ public class ror2Hardcore : BaseUnityPlugin {
         for (int i = 0; i < dccs.categories.Length; i++) { 
             var category = dccs.categories[i];
 
-            category.cards = category.cards.Where(card => !card.spawnCard.name.Equals("iscDroneHealing", StringComparison.OrdinalIgnoreCase)).ToArray();
+            category.cards = category.cards.Where(card => !card.spawnCard.name.Equals("iscDrone2", StringComparison.OrdinalIgnoreCase)).ToArray();
             dccs.categories[i] = category;
        
         }
@@ -54,6 +59,19 @@ public class ror2Hardcore : BaseUnityPlugin {
         Logger.LogInfo("Healing drones removed from spawn pool."); //Debugger
     }
 
+    private void LogAllInteractables(SceneDirector director, DirectorCardCategorySelection dccs){//DEBUGGING METHOD
+        if (dccs == null)
+        {
+            Logger.LogInfo("No interactables to log.");
+            return;
+        }
 
+        Logger.LogInfo("----Interactables in Current Stage----");
+        foreach (var category in dccs.categories) {
+            foreach (var card in category.cards) {
+                Logger.LogInfo("Interactables: " + card.spawnCard.name);
+            }
+        }
+    }
 }
 
