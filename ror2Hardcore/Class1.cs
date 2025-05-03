@@ -13,6 +13,7 @@ public class ror2Hardcore : BaseUnityPlugin {
 
     public void Awake() {//runs when mod starts (when game loads)
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingShrine;
+        SceneDirector.onGenerateInteractableCardSelection -= RemoveHealingDrone;
 
     }
 
@@ -37,9 +38,19 @@ public class ror2Hardcore : BaseUnityPlugin {
         Logger.LogInfo("Shrine of the Woods removed from spawn pool.");//Debugger
     }
 
-    private void RemoveHealingDrone() {
-        //DroneProjectileHoverHeal
+    private void RemoveHealingDrone(SceneDirector director, DirectorCardCategorySelection dccs) {
+        if (dccs == null) {
+            Logger.LogInfo("Unable to remove healing drones from spawn pool.");
+            return;
+        }
+        for (int i = 0; i < dccs.categories.Length; i++) { 
+            var category = dccs.categories[i];
 
+            category.cards = category.cards.Where(card => !card.spawnCard.name.Equals("iscDroneHealing", StringComparison.OrdinalIgnoreCase)).ToArray();
+            dccs.categories[i] = category;
+       
+        }
+        
         Logger.LogInfo("Healing drones removed from spawn pool."); //Debugger
     }
 
