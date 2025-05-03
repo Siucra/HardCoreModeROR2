@@ -19,6 +19,7 @@ public class ror2Hardcore : BaseUnityPlugin {
     //SceneDirector -> thing in charge of setting up level, DirectorCardCategorySelection dccs -> a list of spawnable interactables
     private void RemoveHealingShrine(SceneDirector director, DirectorCardCategorySelection dccs) {
         if (dccs == null) {//if the list is empty, stop the function (error catching)
+            Logger.LogInfo("Unable to remove Shrine of the Woods from spawn pool.");
             return;
         }
         for (int i = 0; i < dccs.categories.Length; i++){//loops through each category 
