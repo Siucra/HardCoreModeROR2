@@ -14,6 +14,7 @@ public class ror2Hardcore : BaseUnityPlugin {
     public void Awake() {//runs when mod starts (when game loads)
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingShrine;
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingDrone;
+        SceneDirector.onGenerateInteractableCardSelection += RemoveHealingChest;
         SceneDirector.onGenerateInteractableCardSelection += LogAllInteractables;
 }
 
@@ -51,6 +52,21 @@ public class ror2Hardcore : BaseUnityPlugin {
         }
         
         Logger.LogInfo("Healing drones removed from spawn pool."); //Debugger
+    }
+
+    private void RemoveHealingChest(SceneDirector director, DirectorCardCategorySelection dccs) {
+        if (dccs == null) {
+            Logger.LogInfo("Unable to remove healing chests from spawn pool.");
+            return;
+        }
+        for (int i = 0; i < dccs.categories.Length; i++) {
+            var category = dccs.categories[i];
+
+            category.cards = category.cards.Where(card => !card.spawnCard.name.Equals("iscCategoryChestHealing",StringComparison.OrdinalIgnoreCase)).ToArray();
+            dccs.categories[i] = category; 
+        }
+
+        Logger.LogInfo("Healing chests removed from spawn pool.");//debugger
     }
 
     private void LogAllInteractables(SceneDirector director, DirectorCardCategorySelection dccs){//DEBUGGING METHOD
