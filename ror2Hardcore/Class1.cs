@@ -46,7 +46,7 @@ public class ror2Hardcore : BaseUnityPlugin {
         for (int i = 0; i < dccs.categories.Length; i++) { 
             var category = dccs.categories[i];
 
-            category.cards = category.cards.Where(card => !card.spawnCard.name.Equals("iscDrone2", StringComparison.OrdinalIgnoreCase)).ToArray();
+            category.cards = category.cards.Where(card => !card.spawnCard.name.Equals("iscBrokenDrone2", StringComparison.OrdinalIgnoreCase)).ToArray();
             dccs.categories[i] = category;
        
         }
