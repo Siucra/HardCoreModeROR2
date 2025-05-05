@@ -4,6 +4,7 @@ using RoR2;//use game's code
 using RoR2.Navigation;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 //Mod: No healing from items,drones or shrines, only from kills
 
@@ -16,6 +17,9 @@ public class ror2Hardcore : BaseUnityPlugin {
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingDrone;
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingChest;
         SceneDirector.onGenerateInteractableCardSelection += LogAllInteractables;
+
+        Run.onRunStartGlobal += RemoveHealingItems; //when game starts
+        Run.onRunStartGlobal += LogAllDroppableItems;
 }
 
    
@@ -69,7 +73,37 @@ public class ror2Hardcore : BaseUnityPlugin {
         Logger.LogInfo("Healing chests removed from spawn pool.");//debugger
     }
 
-    private void LogAllInteractables(SceneDirector director, DirectorCardCategorySelection dccs){//DEBUGGING METHOD
+
+
+    private void RemoveHealingItems(Run gamestart){
+        //access and modify drop list --> remove all healing items
+
+        string[] bannedHealingItems = {
+            "Mushroom" //bustling fungus
+        };
+
+        void FilterPickupList(List<PickupIndex> list){
+            foreach (var pickup in list.ToList()){
+                {
+                    var def = PickupCatalog.GetPickupDef(pickup);
+
+                    if (def != null && def.itemIndex != ItemIndex.None)
+                    {
+                        var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
+                        if (bannedHealingItems.Contains(itemDef.name))
+                        {
+                            list.Remove(pickup);
+                            Logger.LogInfo("Removing: " + itemDef.name);
+                        }
+                    }
+                }
+
+            }
+        }
+        FilterPickupList(Run.instance.availableTier1DropList);
+    }
+
+    private void LogAllInteractables(SceneDirector director, DirectorCardCategorySelection dccs){//DEBUGGING METHOD FOR INTERACTABLES
         if (dccs == null)
         {
             Logger.LogInfo("No interactables to log.");
@@ -92,6 +126,10 @@ public class ror2Hardcore : BaseUnityPlugin {
             }
         }
 
+    }
+
+    private void LogAllDroppableItems(Run gamestart) {//DEBUGGING METHOD FOR DROPPED ITEMS (INVENTORY)
+    
     }
 }
 
