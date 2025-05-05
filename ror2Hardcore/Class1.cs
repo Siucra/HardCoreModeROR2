@@ -103,6 +103,15 @@ public class ror2Hardcore : BaseUnityPlugin {
         FilterPickupList(Run.instance.availableTier1DropList);
     }
 
+    private void LogAllDroppableItems(Run gamestart) {
+        foreach (var index in ItemCatalog.allItems) {
+            var name = ItemCatalog.GetItemDef(index).name;
+                if (name.ToLower().Contains("heal")) {
+                Logger.LogInfo(name);
+                }
+        }
+    
+    }
     private void LogAllInteractables(SceneDirector director, DirectorCardCategorySelection dccs){//DEBUGGING METHOD FOR INTERACTABLES
         if (dccs == null)
         {
@@ -126,10 +135,6 @@ public class ror2Hardcore : BaseUnityPlugin {
             }
         }
 
-    }
-
-    private void LogAllDroppableItems(Run gamestart) {//DEBUGGING METHOD FOR DROPPED ITEMS (INVENTORY)
-    
     }
 }
 
