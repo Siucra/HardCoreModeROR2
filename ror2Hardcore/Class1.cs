@@ -18,12 +18,17 @@ public class ror2Hardcore : BaseUnityPlugin {
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingChest;
         SceneDirector.onGenerateInteractableCardSelection += LogAllInteractables;
 
-        Run.onRunStartGlobal += RemoveHealingItems; //when game starts
-        Run.onRunStartGlobal += LogAllDroppableItems;
+        Run.onRunStartGlobal += (run) => StartCoroutine(DelayedRemove());
+    }
 
-}
+    private System.Collections.IEnumerator DelayedRemove()
+    {
+        yield return new WaitForSeconds(0.1f); // wait for drop lists to populate
+        RemoveHealingItems(Run.instance);
+        LogAllDroppableItems(Run.instance);
+    }
 
-   
+
     //SceneDirector -> thing in charge of setting up level, DirectorCardCategorySelection dccs -> a list of spawnable interactables
     private void RemoveHealingShrine(SceneDirector director, DirectorCardCategorySelection dccs) {
         if (dccs == null) {//if the list is empty, stop the function (error catching)
@@ -90,8 +95,8 @@ public class ror2Hardcore : BaseUnityPlugin {
                             }
                         }
                 }
-            Filter(Run.instance.availableTier1DropList);
          }
+        Filter(Run.instance.availableTier1DropList);
 
     }
 
