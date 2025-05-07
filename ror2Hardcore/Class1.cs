@@ -20,6 +20,7 @@ public class ror2Hardcore : BaseUnityPlugin {
 
         Run.onRunStartGlobal += RemoveHealingItems; //when game starts
         Run.onRunStartGlobal += LogAllDroppableItems;
+
 }
 
    
@@ -77,30 +78,21 @@ public class ror2Hardcore : BaseUnityPlugin {
 
     private void RemoveHealingItems(Run gamestart){
         //access and modify drop list --> remove all healing items
-
-        string[] bannedHealingItems = {
-            "Mushroom" //bustling fungus
-        };
-
-        void FilterPickupList(List<PickupIndex> list){
-            foreach (var pickup in list.ToList()){
-                {
-                    var def = PickupCatalog.GetPickupDef(pickup);
-
-                    if (def != null && def.itemIndex != ItemIndex.None)
-                    {
-                        var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
-                        if (bannedHealingItems.Contains(itemDef.name))
-                        {
+   
+        void Filter(List<PickupIndex> list) {
+            foreach (var pickup in list.ToList()) {
+                var def = PickupCatalog.GetPickupDef(pickup);
+                    if (def != null && def.itemIndex != ItemIndex.None) {
+                    var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
+                        if (itemDef != null && itemDef.name == "Mushroom") {
                             list.Remove(pickup);
-                            Logger.LogInfo("Removing: " + itemDef.name);
+                            Logger.LogInfo("Removed from drop list: "+ itemDef.name);
+                            }
                         }
-                    }
                 }
+            Filter(Run.instance.availableTier1DropList);
+         }
 
-            }
-        }
-        FilterPickupList(Run.instance.availableTier1DropList);
     }
 
     private void LogAllDroppableItems(Run gamestart) {
