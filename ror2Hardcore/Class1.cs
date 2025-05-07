@@ -96,11 +96,12 @@ public class ror2Hardcore : BaseUnityPlugin {
     }
 
     private void LogAllDroppableItems(Run gamestart) {
-        foreach (var index in ItemCatalog.allItems) {
-            var name = ItemCatalog.GetItemDef(index).name;
-                if (name.ToLower().Contains("heal")) {
-                Logger.LogInfo(name);
-                }
+        foreach (var pickup in Run.instance.availableTier1DropList) {
+            var def = PickupCatalog.GetPickupDef(pickup);
+            if (def != null && def.itemIndex != ItemIndex.None) { 
+                var itemDef=ItemCatalog.GetItemDef(def.itemIndex); 
+                Logger.LogInfo("Tier1 item: " + itemDef.name);
+            }
         }
     
     }
