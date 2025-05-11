@@ -4,6 +4,7 @@ using RoR2;//use game's code
 using RoR2.Navigation;
 using System.Linq;
 using System;
+
 using System.Collections.Generic;
 
 //Mod: No healing from items,drones or shrines, only from kills
@@ -19,13 +20,74 @@ public class ror2Hardcore : BaseUnityPlugin {
         SceneDirector.onGenerateInteractableCardSelection += LogAllInteractables;
 
         Run.onRunStartGlobal += (run) => StartCoroutine(DelayedRemove());
+
     }
 
     private System.Collections.IEnumerator DelayedRemove()
     {
-        yield return new WaitForSeconds(0.1f); // wait for drop lists to populate
-        RemoveHealingItems(Run.instance);
-        LogAllDroppableItems(Run.instance);
+        yield return new WaitForSeconds(0.5f); // Wait to ensure drop lists are populated
+
+        RemoveItemFromAllDropLists("Mushroom"); // Bustling Fungus
+        LogAllDroppableItems(Run.instance);     // Optional: debug log
+    }
+
+    private void RemoveItemFromAllDropLists(string itemName)
+    {
+        void Filter(List<PickupIndex> list)
+        {
+            foreach (var pickup in list.ToList())
+            {
+                var def = PickupCatalog.GetPickupDef(pickup);
+                if (def != null && def.itemIndex != ItemIndex.None)
+                {
+                    var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
+                    if (itemDef != null && itemDef.name.Equals(itemName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        list.Remove(pickup);
+                        Logger.LogInfo($"Removed {itemDef.name} from drop list (Command filtered).");
+                    }
+                }
+            }
+        }
+
+        Filter(Run.instance.availableTier1DropList);
+        Filter(Run.instance.availableTier2DropList);
+        Filter(Run.instance.availableTier3DropList);
+       // Filter(Run.instance.availableLunarDropList);
+        Filter(Run.instance.availableVoidTier1DropList);
+        Filter(Run.instance.availableVoidTier2DropList);
+        Filter(Run.instance.availableVoidTier3DropList);
+    }
+
+
+    private void RemoveHealingItemsGlobal(Run run)
+    {
+        var excludedItems = new HashSet<string> { "Mushroom" }; // Add more if needed
+
+        void FilterList(List<PickupIndex> list)
+        {
+            foreach (var pickup in list.ToList())
+            {
+                var def = PickupCatalog.GetPickupDef(pickup);
+                if (def != null && def.itemIndex != ItemIndex.None)
+                {
+                    var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
+                    if (itemDef != null && excludedItems.Contains(itemDef.name))
+                    {
+                        list.Remove(pickup);
+                        Logger.LogInfo($"[Filter] Removed {itemDef.name} from available drop list.");
+                    }
+                }
+            }
+        }
+
+        FilterList(run.availableTier1DropList);
+        FilterList(run.availableTier2DropList);
+        FilterList(run.availableTier3DropList);
+       // FilterList(run.availableLunarDropList);
+        FilterList(run.availableVoidTier1DropList);
+        FilterList(run.availableVoidTier2DropList);
+        FilterList(run.availableVoidTier3DropList);
     }
 
 
