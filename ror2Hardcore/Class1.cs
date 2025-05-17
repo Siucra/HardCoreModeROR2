@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 
 using System.Collections.Generic;
+using IL.RoR2.Projectile;
 
 //Mod: No healing from items,drones or shrines, only from kills
 
@@ -14,6 +15,8 @@ using System.Collections.Generic;
 public class ror2Hardcore : BaseUnityPlugin {
 
     public void Awake() {//runs when mod starts (when game loads)
+        On.RoR2.PickupPickerController.SetOptionsFromPickupForCommandArtifact += FilterCommandOptions; //Hook into Command artifact item selection to filter items
+
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingShrine;
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingDrone;
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingChest;
@@ -195,6 +198,14 @@ public class ror2Hardcore : BaseUnityPlugin {
             }
         }
 
+    }
+
+    //Hook method to filter out specific healing items from the Artifact of Command item selection UI
+    private void FilterCommandOptions(On.RoR2.PickupPickerController.orig_SetOptionsFromPickupForCommandArtifact orig, PickupPickerController self, PickupIndex pickupIndex) { 
+        
+        orig(self, pickupIndex);
+
+        var optionsField = typeof(PickupPickerController).GetField("options", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
     }
 }
 
