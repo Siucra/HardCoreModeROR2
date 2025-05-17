@@ -203,9 +203,32 @@ public class ror2Hardcore : BaseUnityPlugin {
     //Hook method to filter out specific healing items from the Artifact of Command item selection UI
     private void FilterCommandOptions(On.RoR2.PickupPickerController.orig_SetOptionsFromPickupForCommandArtifact orig, PickupPickerController self, PickupIndex pickupIndex) { 
         
+        //Execute the original method first to populate the 'options' array
         orig(self, pickupIndex);
 
+        //use reflection to access the private 'options' field from the PickupPickerController instance
         var optionsField = typeof(PickupPickerController).GetField("options", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+        //Retrieve the current array of selectable item options
+        var options = (PickupPickerController.Option[])optionsField.GetValue(self);
+
+        //filter out Bustling fungus (mushroom)
+        var filtered = options.Where(opt =>{ 
+
+            var def = PickupCatalog.GetPickupDef(opt.pickupIndex); // Get pickup definition (metadata)
+            if (def != null && def.itemIndex != ItemIndex.None) {
+                var itemDef = ItemCatalog.GetItemDef(def.itemIndex); // Get actual item definition
+                if (itemDef != null && itemDef.name.Equals("Mushroom", StringComparison.OrdinalIgnoreCase)) {// Check if it's the Bustling Fungus
+                    Logger.LogInfo("[Command] Removed Mushroom from Command options."); //debug log
+                    return false;// Exclude this option
+                }
+            }
+            return true; // Keep this option
+        }).ToArray();
+
+        // Apply the filtered options back into the private 'options' field
+        optionsField.SetValue(self, filtered);
+
     }
 }
 
