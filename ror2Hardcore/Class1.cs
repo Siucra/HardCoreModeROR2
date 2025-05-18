@@ -1,12 +1,9 @@
 ﻿using BepInEx; //mod loader library
 using UnityEngine; //engine library that ror2 uses
 using RoR2;//use game's code
-using RoR2.Navigation;
 using System.Linq;
 using System;
-
 using System.Collections.Generic;
-using IL.RoR2.Projectile;
 
 //Mod: No healing from items,drones or shrines, only from kills
 
@@ -16,7 +13,7 @@ public class ror2Hardcore : BaseUnityPlugin {
 
     private static readonly HashSet<String> excludedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase) {
             "Mushroom", //Bustling Fungus
-            "Medkit"
+            "Medkit" //Medkit
         };
 
     public void Awake() {//runs when mod starts (when game loads)
@@ -37,8 +34,8 @@ public class ror2Hardcore : BaseUnityPlugin {
     {
         yield return new WaitForSeconds(0.5f); // Wait to ensure drop lists are populated
 
-        RemoveAllExcludedItemsFromDropLists(); // Bustling Fungus
-        LogAllDroppableItems(Run.instance);     // Optional: debug log
+        RemoveAllExcludedItemsFromDropLists();
+        LogAllDroppableItems(Run.instance);     // Debug log
     }
 
     private void RemoveAllExcludedItemsFromDropLists()
@@ -51,7 +48,7 @@ public class ror2Hardcore : BaseUnityPlugin {
                 if (def != null && def.itemIndex != ItemIndex.None)
                 {
                     var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
-                    if (itemDef != null && itemDef.name.Equals(itemName, StringComparison.OrdinalIgnoreCase))
+                    if (itemDef != null && excludedItems.Contains(itemDef.name))
                     {
                         list.Remove(pickup);
                         Logger.LogInfo($"Removed {itemDef.name} from drop list (Command filtered).");
