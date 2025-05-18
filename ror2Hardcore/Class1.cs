@@ -13,7 +13,11 @@ public class ror2Hardcore : BaseUnityPlugin {
 
     private static readonly HashSet<String> excludedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase) {
             "Mushroom", //Bustling Fungus
-            "Medkit" //Medkit
+            "Medkit", //Medkit
+            "FlatHealth",
+            "HealWhileSafe"
+            
+            //shield items: BarrierOnKill, Bear, PersonalShield
         };
 
     public void Awake() {//runs when mod starts (when game loads)
