@@ -14,8 +14,8 @@ public class ror2Hardcore : BaseUnityPlugin {
     private static readonly HashSet<String> excludedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase) {
             "Mushroom", //Bustling Fungus
             "Medkit", //Medkit
-            "FlatHealth",
-            "HealWhileSafe"
+            "FlatHealth", //Cautious Slug
+            "HealWhileSafe" //Monster tooth (necklace)
             
             //shield items: BarrierOnKill, Bear, PersonalShield
         };
