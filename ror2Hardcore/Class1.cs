@@ -14,6 +14,10 @@ using IL.RoR2.Projectile;
 
 public class ror2Hardcore : BaseUnityPlugin {
 
+    private static readonly HashSet<String> excludedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase) {
+            "Mushroom","Medkit"
+        };
+
     public void Awake() {//runs when mod starts (when game loads)
         On.RoR2.PickupPickerController.SetOptionsFromPickupForCommandArtifact += FilterCommandOptions; //Hook into Command artifact item selection to filter items
 
@@ -23,6 +27,8 @@ public class ror2Hardcore : BaseUnityPlugin {
         SceneDirector.onGenerateInteractableCardSelection += LogAllInteractables;
 
         Run.onRunStartGlobal += (run) => StartCoroutine(DelayedRemove());
+
+
 
     }
 
