@@ -15,7 +15,8 @@ using IL.RoR2.Projectile;
 public class ror2Hardcore : BaseUnityPlugin {
 
     private static readonly HashSet<String> excludedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase) {
-            "Mushroom","Medkit"
+            "Mushroom", //Bustling Fungus
+            "Medkit"
         };
 
     public void Awake() {//runs when mod starts (when game loads)
@@ -160,7 +161,7 @@ public class ror2Hardcore : BaseUnityPlugin {
                 var def = PickupCatalog.GetPickupDef(pickup);
                     if (def != null && def.itemIndex != ItemIndex.None) {
                     var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
-                        if (itemDef != null && itemDef.name == "Mushroom") {
+                        if (itemDef != null && excludedItems.Contains(itemDef.name)) {
                             list.Remove(pickup);
                             Logger.LogInfo("Removed from drop list: "+ itemDef.name);
                             }
@@ -224,8 +225,8 @@ public class ror2Hardcore : BaseUnityPlugin {
             var def = PickupCatalog.GetPickupDef(opt.pickupIndex); // Get pickup definition (metadata)
             if (def != null && def.itemIndex != ItemIndex.None) {
                 var itemDef = ItemCatalog.GetItemDef(def.itemIndex); // Get actual item definition
-                if (itemDef != null && itemDef.name.Equals("Mushroom", StringComparison.OrdinalIgnoreCase)) {// Check if it's the Bustling Fungus
-                    Logger.LogInfo("[Command] Removed Mushroom from Command options."); //debug log
+                if (itemDef != null && excludedItems.Contains(itemDef.name)) {// Check if it's the Bustling Fungus
+                    Logger.LogInfo($"[Command] Removed {itemDef.name} from Command options."); //debug log
                     return false;// Exclude this option
                 }
             }
