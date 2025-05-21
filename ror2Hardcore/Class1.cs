@@ -24,7 +24,12 @@ public class ror2Hardcore : BaseUnityPlugin {
             "HealOnCrit", //Harvester's scythe
             "infusion", //infusion
             "Seed", //leeching seed
-            "TPHealingNova" //lepton daisy
+            "TPHealingNova", //lepton daisy
+
+            //TIER 3 (RED)
+            "BarrierOnOverHeal", //aegis
+            "IncreaseHealing", //rejuvenation rack
+            "NovaOnHeal" //interstellar desk plant
         };
 
     public void Awake() {//runs when mod starts (when game loads)
