@@ -121,13 +121,22 @@ public class ror2Hardcore : BaseUnityPlugin {
     }
 
     private void LogAllDroppableItems(Run gamestart) {
-        foreach (var pickup in Run.instance.availableTier1DropList) {
+        foreach (var pickup in Run.instance.availableTier1DropList) {//tier 1 droplist
             var def = PickupCatalog.GetPickupDef(pickup);
             if (def != null && def.itemIndex != ItemIndex.None) { 
                 var itemDef=ItemCatalog.GetItemDef(def.itemIndex); 
                 Logger.LogInfo("Tier1 item: " + itemDef.name);
             }
         }
+        foreach (var pickup in Run.instance.availableTier2DropList) {
+            var def = PickupCatalog.GetPickupDef(pickup);
+            if (def != null && def.itemIndex != ItemIndex.None) {
+                var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
+                Logger.LogInfo("Tier2 item: " +itemDef.name);
+            }
+        }
+
+
     
     }
     private void LogAllInteractables(SceneDirector director, DirectorCardCategorySelection dccs){//DEBUGGING METHOD FOR INTERACTABLES
