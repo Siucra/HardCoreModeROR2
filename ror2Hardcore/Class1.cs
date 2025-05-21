@@ -12,12 +12,19 @@ using System.Collections.Generic;
 public class ror2Hardcore : BaseUnityPlugin {
 
     private static readonly HashSet<String> excludedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase) {
+            //TIER 1
             "Mushroom", //Bustling Fungus
             "Medkit", //Medkit
             "FlatHealth", //Cautious Slug
-            "HealWhileSafe" //Monster tooth (necklace)
+            "HealWhileSafe", //Monster tooth (necklace)
             
             //shield items: BarrierOnKill, Bear, PersonalShield
+
+            //TIER 2
+            "HealOnCrit", //Harvester's scythe
+            "infusion", //infusion
+            "Seed", //leeching seed
+            "TPHealingNova" //lepton daisy
         };
 
     public void Awake() {//runs when mod starts (when game loads)
