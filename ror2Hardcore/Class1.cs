@@ -142,9 +142,18 @@ public class ror2Hardcore : BaseUnityPlugin {
                 Logger.LogInfo("Tier2 item: " +itemDef.name);
             }
         }
+        foreach (var pickup in Run.instance.availableTier3DropList)
+        {
+            var def = PickupCatalog.GetPickupDef(pickup);
+            if (def != null && def.itemIndex != ItemIndex.None)
+            {
+                var itemDef = ItemCatalog.GetItemDef(def.itemIndex);
+                Logger.LogInfo("Tier3 item: " + itemDef.name);
+            }
+        }
 
 
-    
+
     }
     private void LogAllInteractables(SceneDirector director, DirectorCardCategorySelection dccs){//DEBUGGING METHOD FOR INTERACTABLES
         if (dccs == null)
