@@ -17,8 +17,6 @@ public class ror2Hardcore : BaseUnityPlugin {
             "Medkit", //Medkit
             "FlatHealth", //Cautious Slug
             "HealWhileSafe", //Monster tooth (necklace)
-            
-            //shield items: BarrierOnKill, Bear, PersonalShield
 
             //TIER 2
             "HealOnCrit", //Harvester's scythe
@@ -32,6 +30,14 @@ public class ror2Hardcore : BaseUnityPlugin {
             "NovaOnHeal" //interstellar desk plant
         };
 
+    private static readonly HashSet<String> buffedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase)
+    {
+        //TIER 1
+        "BleedOnHit", //Tri-Tip Dagger
+        "Firework", //Bundle Of Fireworks
+        "IgniteOnKill" //Gasoline
+    };
+
     public void Awake() {//runs when mod starts (when game loads)
         On.RoR2.PickupPickerController.SetOptionsFromPickupForCommandArtifact += FilterCommandOptions; //Hook into Command artifact item selection to filter items
 
@@ -42,9 +48,9 @@ public class ror2Hardcore : BaseUnityPlugin {
 
         Run.onRunStartGlobal += (run) => StartCoroutine(DelayedRemove());
 
-
-
     }
+
+
 
     private System.Collections.IEnumerator DelayedRemove()
     {
