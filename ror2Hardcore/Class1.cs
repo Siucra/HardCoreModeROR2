@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 [BepInPlugin("com.meepmorp.ror2hardcore", "Hardcore mode", "1.0.0")]//mod unique id, mod name, version number
 
-public class ror2Hardcore : BaseUnityPlugin {
+public class Ror2Hardcore : BaseUnityPlugin {
 
     private static readonly HashSet<String> excludedItems = new HashSet<String>(StringComparer.OrdinalIgnoreCase) {
             //TIER 1
@@ -39,7 +39,7 @@ public class ror2Hardcore : BaseUnityPlugin {
     };
 
     public void Awake() {//runs when mod starts (when game loads)
-        On.RoR2.PickupPickerController.SetOptionsFromPickupForCommandArtifact += FilterCommandOptions; //Hook into Command artifact item selection to filter items
+        //On.RoR2.PickupPickerController.SetOptionsFromPickupForCommandArtifact += FilterCommandOptions; //Hook into Command artifact item selection to filter items
 
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingShrine;
         SceneDirector.onGenerateInteractableCardSelection += RemoveHealingDrone;
